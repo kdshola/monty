@@ -1,23 +1,6 @@
 #include "monty.h"
 
 /**
- * get_data - converts string data to integer
- * @op_code: string vector containing data
- * Return: nothing
- */
-void get_data(char **op_code)
-{
-	int num = 0;
-
-	if (op_code[1] == NULL)
-		print_error(op_code);
-	num = atoi(op_code[1]);
-	if (num == 0 && (strcmp(op_code[1], "0") != 0))
-		print_error(op_code);
-	top_data = num;
-}
-
-/**
  * get_op_functn - finds the function corresponding to an opcode
  * @op_code: an array opertion code vectors
  * Return: address of the funcyion or NULL
@@ -87,7 +70,7 @@ void parse_file(FILE *script)
 {
 	ssize_t chars_read = 0;
 	size_t len = 0, buf_size = 0;
-	char *line_copy = NULL, **op_tokens = NULL;
+	char *line_copy = NULL;
 	void (*f)(stack_t **stack, unsigned int line_number) = NULL;
 
 	while (!feof(script))
@@ -113,10 +96,8 @@ void parse_file(FILE *script)
 			f = get_op_functn(op_tokens);
 		else
 			f = get_op_queue(op_tokens);
-		if (!exec_direct(op_tokens))
-			get_data(op_tokens);
-		free_vectors(op_tokens);
 		f(&top, line_number);
+		free_vectors(op_tokens);
 		line_number++;
 	}
 	free(line);
@@ -128,6 +109,7 @@ bool stack_mode = true;
 int top_data = 0;
 int second_data = 0;
 char *line = NULL;
+char **op_tokens = NULL;
 unsigned int line_number = 1;
 FILE *file_ptr = NULL;
 stack_t *top = NULL;

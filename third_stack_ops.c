@@ -97,6 +97,7 @@ void pchar(stack_t **stack, unsigned int line_number)
 	{
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
 		free(line);
+		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -105,6 +106,7 @@ void pchar(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, range);
 		free(line);
 		fclose(file_ptr);
+		free_vectors(op_tokens);
 		free_dlistint(top);
 		exit(EXIT_FAILURE);
 	}

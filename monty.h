@@ -39,6 +39,7 @@ typedef struct instruction_s
 
 extern int top_data;
 extern unsigned int line_number;
+extern char **op_tokens;
 extern char *line;
 extern stack_t *top;
 extern stack_t *queue_front;
@@ -79,7 +80,5 @@ void free_vectors(char **vectors);
 char **tokenize(char *copy, char *line_input);
 void print_error(char **op_vector);
 void free_dlistint(stack_t *head);
-bool exec_direct(char **op_code);
-void get_data(char **op_code);
 
 #endif

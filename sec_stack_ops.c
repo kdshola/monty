@@ -18,6 +18,7 @@ void mod(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
 		free_dlistint(top);
 		free(line);
+		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -30,6 +31,7 @@ void mod(stack_t **stack, unsigned int line_number)
 			fprintf(stderr, "%s%d: %s\n", "L", line_number, zero_msg);
 			free_dlistint(top);
 			free(line);
+			free_vectors(op_tokens);
 			fclose(file_ptr);
 			exit(EXIT_FAILURE);
 		}
@@ -55,6 +57,7 @@ void mul(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
 		free_dlistint(top);
 		free(line);
+		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -83,6 +86,7 @@ void divide(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
 		free_dlistint(top);
 		free(line);
+		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -95,6 +99,7 @@ void divide(stack_t **stack, unsigned int line_number)
 			fprintf(stderr, "%s%d: %s\n", "L", line_number, zero_msg);
 			free_dlistint(top);
 			fclose(file_ptr);
+			free_vectors(op_tokens);
 			free(line);
 			exit(EXIT_FAILURE);
 		}
@@ -121,6 +126,7 @@ void sub(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
 		free_dlistint(top);
 		free(line);
+		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -148,6 +154,7 @@ void add(stack_t **stack, unsigned int line_number)
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
 		free_dlistint(top);
 		free(line);
+		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}

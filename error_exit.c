@@ -52,9 +52,9 @@ void exit_invalid(char **op_code)
 {
 	char *message = "unknown instruction";
 
-	free(line);
 	fprintf(stderr, "%s%d: %s %s\n", "L", line_number, message, op_code[0]);
 	free_vectors(op_code);
+	free(line);
 	free_dlistint(top);
 	fclose(file_ptr);
 	exit(EXIT_FAILURE);

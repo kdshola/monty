@@ -15,6 +15,7 @@ void swap(stack_t **stack, unsigned int line_number)
 	{
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
 		free_dlistint(top);
+		free_vectors(op_tokens);
 		free(line);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
@@ -46,6 +47,7 @@ void pop(stack_t **stack, unsigned int line_number)
 	{
 		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
 		free(line);
+		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -89,11 +91,19 @@ void pint(stack_t **stack, unsigned int line_number)
 
 void push(stack_t **stack, unsigned int line_number __attribute__((unused)))
 {
+	int num = 0;
 	stack_t *new = NULL;
 
+	if (op_tokens[1] == NULL)
+		print_error(op_tokens);
+	num = atoi(op_tokens[1]);
+	if (num == 0 && (strcmp(op_tokens[1], "0") != 0))
+		print_error(op_tokens);
+	top_data = num;
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
+		free_vectors(op_tokens);
 		exit_malloc();
 	}
 	new->prev = NULL;

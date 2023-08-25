@@ -1,19 +1,6 @@
 #include "monty.h"
 
 /**
- * exec_direct - determines execution line
- * @op_code: opcode and its arguments
- * Return:true of false
- */
-bool exec_direct(char **op_code)
-{
-	if (strcmp(op_code[0], "push") == 0)
-		return (false);
-	else
-		return (true);
-}
-
-/**
  * free_dlistint - frees a doubly linked lis
  * @head: pointer to list start
  * Return: Nothing
