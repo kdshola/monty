@@ -117,6 +117,7 @@ void push(stack_t **stack, unsigned int line_number __attribute__((unused)))
 	}
 	else
 	{
+		new->prev = queue_rear;
 		queue_rear->next = new;
 		queue_rear = new;
 	}
