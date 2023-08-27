@@ -10,15 +10,12 @@
 void mod(stack_t **stack, unsigned int line_number)
 {
 	int mod = 0, numerator, demoninator;
-	char *message = "can't mod, stack too short";
-	char *zero_msg = "division by zero";
 
 	if (data_count < 2)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't mod, stack too short\n", line_number);
 		free_dlistint(top);
 		free(line);
-		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -28,10 +25,9 @@ void mod(stack_t **stack, unsigned int line_number)
 		demoninator = (*stack)->n;
 		if (demoninator == 0)
 		{
-			fprintf(stderr, "%s%d: %s\n", "L", line_number, zero_msg);
+			fprintf(stderr, "L%d: division by zero\n", line_number);
 			free_dlistint(top);
 			free(line);
-			free_vectors(op_tokens);
 			fclose(file_ptr);
 			exit(EXIT_FAILURE);
 		}
@@ -50,14 +46,12 @@ void mod(stack_t **stack, unsigned int line_number)
 void mul(stack_t **stack, unsigned int line_number)
 {
 	int mul = 0;
-	char *message = "can't mul, stack too short";
 
 	if (data_count < 2)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't mul, stack too short\n", line_number);
 		free_dlistint(top);
 		free(line);
-		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -78,15 +72,12 @@ void mul(stack_t **stack, unsigned int line_number)
 void divide(stack_t **stack, unsigned int line_number)
 {
 	int div = 0, numerator, demoninator;
-	char *message = "can't div, stack too short";
-	char *zero_msg = "division by zero";
 
 	if (data_count < 2)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't div, stack too short\n", line_number);
 		free_dlistint(top);
 		free(line);
-		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -96,10 +87,9 @@ void divide(stack_t **stack, unsigned int line_number)
 		demoninator = (*stack)->n;
 		if (demoninator == 0)
 		{
-			fprintf(stderr, "%s%d: %s\n", "L", line_number, zero_msg);
+			fprintf(stderr, "L%d: division by zero\n", line_number);
 			free_dlistint(top);
 			fclose(file_ptr);
-			free_vectors(op_tokens);
 			free(line);
 			exit(EXIT_FAILURE);
 		}
@@ -119,14 +109,12 @@ void divide(stack_t **stack, unsigned int line_number)
 void sub(stack_t **stack, unsigned int line_number)
 {
 	int sub = 0;
-	char *message = "can't sub, stack too";
 
 	if (data_count < 2)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't sub, stack too short\n", line_number);
 		free_dlistint(top);
 		free(line);
-		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -147,14 +135,12 @@ void sub(stack_t **stack, unsigned int line_number)
 void add(stack_t **stack, unsigned int line_number)
 {
 	int sum = 0;
-	char *message = "can't add, stack too short";
 
 	if (data_count < 2)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
 		free_dlistint(top);
 		free(line);
-		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}

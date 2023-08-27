@@ -2,19 +2,13 @@
 
 /**
  * print_error - prints error message
- * @op_vector:opcode and its arguments
  * Return: nothing
  */
-void print_error(char **op_vector)
+void print_error(void)
 {
-	char *push_message = "usage: push integer";
-
-	fprintf(stderr, "%s%d: ", "L", line_number);
-	if (strcmp(op_vector[0], "push") == 0)
-		fprintf(stderr, "%s\n", push_message);
+	fprintf(stderr, "L%d: usage: push integer\n", line_number);
 	free(line);
 	free_dlistint(top);
-	free_vectors(op_vector);
 	fclose(file_ptr);
 	exit(EXIT_FAILURE);
 }
@@ -26,7 +20,7 @@ void print_error(char **op_vector)
  */
 void exit_unreadable(char *script)
 {
-	fprintf(stderr, "%s %s\n", "Error: Can't open file", script);
+	fprintf(stderr, "Error: Can't open file %s\n", script);
 	exit(EXIT_FAILURE);
 }
 
@@ -36,7 +30,7 @@ void exit_unreadable(char *script)
  */
 void exit_malloc(void)
 {
-	fprintf(stderr, "%s\n", "Error: malloc failed");
+	fprintf(stderr, "Error: malloc failed\n");
 	free_dlistint(top);
 	free(line);
 	fclose(file_ptr);
@@ -48,12 +42,9 @@ void exit_malloc(void)
  * @op_code: op_code vector
  * Return: nothing
  */
-void exit_invalid(char **op_code)
+void exit_invalid(char *op_code)
 {
-	char *message = "unknown instruction";
-
-	fprintf(stderr, "%s%d: %s %s\n", "L", line_number, message, op_code[0]);
-	free_vectors(op_code);
+	fprintf(stderr, "L%d: unknown instruction %s\n", line_number, op_code);
 	free(line);
 	free_dlistint(top);
 	fclose(file_ptr);

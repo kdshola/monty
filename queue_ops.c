@@ -8,19 +8,23 @@
  */
 void enqueue(stack_t **stack, unsigned int line_number __attribute__((unused)))
 {
-	int num = 0;
+	int i, num = 0;
 	stack_t *new = NULL;
 
-	if (op_tokens[1] == NULL)
-		print_error(op_tokens);
-	num = atoi(op_tokens[1]);
-	if (num == 0 && (strcmp(op_tokens[1], "0") != 0))
-		print_error(op_tokens);
+	if (op_arg == NULL)
+		print_error();
+	for (i = 0; op_arg[i]; i++)
+	{
+		if (op_arg[0] == '-')
+			continue;
+		if (op_arg[i] > 57 || op_arg[i] < 48)
+			print_error();
+	}
+	num = atoi(op_arg);
 	top_data = num;
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
-		free_vectors(op_tokens);
 		exit_malloc();
 	}
 	new->next = NULL;
@@ -35,6 +39,7 @@ void enqueue(stack_t **stack, unsigned int line_number __attribute__((unused)))
 		queue_rear->next = new;
 		queue_rear = new;
 	}
+	top_data = 0;
 	data_count++;
 }
 
@@ -55,7 +60,7 @@ __attribute__((unused)))
  * @op_code: an array opertion code vectors
  * Return: address of the funcyion or NULL
  */
-void (*get_op_queue(char **op_code))(stack_t **stack, unsigned int line_num)
+void (*get_op_queue(char *op_code))(stack_t **stack, unsigned int line_num)
 {
 	int i = 0;
 	instruction_t op_n_functn[] = {
@@ -79,9 +84,11 @@ void (*get_op_queue(char **op_code))(stack_t **stack, unsigned int line_num)
 		{NULL, NULL}
 	};
 
+	if (op_code[0] == '#')
+		return (NULL);
 	for (i = 0; op_n_functn[i].opcode; i++)
 	{
-		if (strcmp(op_code[0], op_n_functn[i].opcode) == 0)
+		if (strcmp(op_code, op_n_functn[i].opcode) == 0)
 			return (op_n_functn[i].f);
 	}
 	exit_invalid(op_code);

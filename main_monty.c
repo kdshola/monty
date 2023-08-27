@@ -5,7 +5,7 @@
  * @op_code: an array opertion code vectors
  * Return: address of the funcyion or NULL
  */
-void (*get_op_functn(char **op_code))(stack_t **stack, unsigned int line_num)
+void (*get_op_functn(char *op_code))(stack_t **stack, unsigned int line_num)
 {
 	int i = 0;
 	instruction_t op_n_functn[] = {
@@ -29,36 +29,16 @@ void (*get_op_functn(char **op_code))(stack_t **stack, unsigned int line_num)
 		{NULL, NULL}
 	};
 
+	if (op_code[0] == '#')
+		return (NULL);
 	for (i = 0; op_n_functn[i].opcode; i++)
 	{
-		if (strcmp(op_code[0], op_n_functn[i].opcode) == 0)
+		if (strcmp(op_code, op_n_functn[i].opcode) == 0)
 			return (op_n_functn[i].f);
 	}
 	exit_invalid(op_code);
 
 	return (NULL);
-}
-
-/**
- * is_readable - checks for readable character
- * @line: line to check;
- * Return: true if readable
- */
-bool is_readable(char *line)
-{
-	size_t i, len = 0;
-
-	len = strlen(line);
-	if (len == 1)
-		return (false);
-	for (i = 0; i < len; i++)
-	{
-		if (line[i] == '#')
-			return (false);
-		else if (line[i] > 40)
-			return (true);
-	}
-	return (false);
 }
 
 /**
@@ -69,8 +49,8 @@ bool is_readable(char *line)
 void parse_file(FILE *script)
 {
 	ssize_t chars_read = 0;
-	size_t len = 0, buf_size = 0;
-	char *line_copy = NULL;
+	size_t buf_size = 0;
+	char *op_code = NULL;
 	void (*f)(stack_t **stack, unsigned int line_number) = NULL;
 
 	while (!feof(script))
@@ -81,24 +61,23 @@ void parse_file(FILE *script)
 			free(line);
 			exit(EXIT_FAILURE);
 		}
-		if (is_readable(line) == false)
+		op_code = strtok(line, " \t\n");
+		if (op_code == NULL)
 		{
 			line_number++;
 			continue;
 		}
-		len = strlen(line);
-		line_copy = malloc(sizeof(char) * (len + 1));
-		if (line_copy == NULL)
-			exit_malloc();
-		line_copy = strcpy(line_copy, line);
-		op_tokens = tokenize(line_copy, line);
+		op_arg = strtok(NULL, " \t\n");
 		if (stack_mode)
-			f = get_op_functn(op_tokens);
+			f = get_op_functn(op_code);
 		else
-			f = get_op_queue(op_tokens);
-		f(&top, line_number);
-		free_vectors(op_tokens);
+			f = get_op_queue(op_code);
+		if (f)
+			f(&top, line_number);
 		line_number++;
+		free(line);
+		line = NULL;
+		buf_size = 0;
 	}
 	free(line);
 	free_dlistint(top);
@@ -109,7 +88,7 @@ bool stack_mode = true;
 int top_data = 0;
 int second_data = 0;
 char *line = NULL;
-char **op_tokens = NULL;
+char *op_arg = NULL;
 unsigned int line_number = 1;
 FILE *file_ptr = NULL;
 stack_t *top = NULL;
@@ -138,5 +117,5 @@ int main(int argc, char **argv)
 		exit_unreadable(file_path);
 	 parse_file(file_ptr);
 	 fclose(file_ptr);
-	return (0);
+	exit(EXIT_SUCCESS);
 }

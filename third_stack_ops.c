@@ -23,7 +23,7 @@ void rotr(stack_t **stack, unsigned int line_number __attribute__((unused)))
 	int last_data;
 	stack_t *temp = queue_rear;
 
-	if (*stack == NULL)
+	if (*stack == NULL || (*stack)->prev == NULL)
 		return;
 	last_data = temp->n;
 	while (temp->prev)
@@ -46,7 +46,7 @@ void rotl(stack_t **stack, unsigned int line_number __attribute__((unused)))
 	int top_data;
 	stack_t *temp = *stack;
 
-	if (*stack == NULL)
+	if (*stack == NULL || (*stack)->next == NULL)
 		return;
 	top_data = temp->n;
 	while (temp->next)
@@ -90,23 +90,18 @@ void pstr(stack_t **stack, unsigned int line_number __attribute__((unused)))
  */
 void pchar(stack_t **stack, unsigned int line_number)
 {
-	char *message = "can't pchar, stack empty";
-	char *range = "can't pchar, value out of range";
-
 	if (*stack == NULL)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
 		free(line);
-		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
 	else if ((*stack)->n < 0 || (*stack)->n > 127)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, range);
+		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
 		free(line);
 		fclose(file_ptr);
-		free_vectors(op_tokens);
 		free_dlistint(top);
 		exit(EXIT_FAILURE);
 	}

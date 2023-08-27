@@ -9,13 +9,11 @@
 void swap(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp = NULL;
-	char *message = "can't swap, stack too short";
 
 	if (data_count < 2)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
 		free_dlistint(top);
-		free_vectors(op_tokens);
 		free(line);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
@@ -40,14 +38,12 @@ void swap(stack_t **stack, unsigned int line_number)
  */
 void pop(stack_t **stack, unsigned int line_number)
 {
-	char *message = "can't pop an empty stack";
 	stack_t *temp = *stack;
 
 	if (*stack == NULL)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
 		free(line);
-		free_vectors(op_tokens);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}
@@ -67,11 +63,9 @@ void pop(stack_t **stack, unsigned int line_number)
  */
 void pint(stack_t **stack, unsigned int line_number)
 {
-	char *message = "can't pint, stack empty";
-
 	if (*stack == NULL)
 	{
-		fprintf(stderr, "%s%d: %s\n", "L", line_number, message);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
 		free(line);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
@@ -91,19 +85,23 @@ void pint(stack_t **stack, unsigned int line_number)
 
 void push(stack_t **stack, unsigned int line_number __attribute__((unused)))
 {
-	int num = 0;
+	int i, num = 0;
 	stack_t *new = NULL;
 
-	if (op_tokens[1] == NULL)
-		print_error(op_tokens);
-	num = atoi(op_tokens[1]);
-	if (num == 0 && (strcmp(op_tokens[1], "0") != 0))
-		print_error(op_tokens);
+	if (op_arg == NULL)
+		print_error();
+	for (i = 0; op_arg[i]; i++)
+	{
+		if (op_arg[0] == '-')
+			continue;
+		if (op_arg[i] > 57 || op_arg[i] < 48)
+			print_error();
+	}
+	num = atoi(op_arg);
 	top_data = num;
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
-		free_vectors(op_tokens);
 		exit_malloc();
 	}
 	new->prev = NULL;
@@ -120,6 +118,7 @@ void push(stack_t **stack, unsigned int line_number __attribute__((unused)))
 		*stack = queue_front = new;
 	}
 	data_count++;
+	top_data = 0;
 }
 
 

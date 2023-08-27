@@ -39,7 +39,7 @@ typedef struct instruction_s
 
 extern int top_data;
 extern unsigned int line_number;
-extern char **op_tokens;
+extern char *op_arg;
 extern char *line;
 extern stack_t *top;
 extern stack_t *queue_front;
@@ -67,18 +67,14 @@ void pint(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 void push(stack_t **stack, unsigned int line_number);
 void check_args(char **op_vector);
-void (*get_op_functn(char **op_code))(stack_t **stack, unsigned int line_num);
-void (*get_op_queue(char **op_code))(stack_t **stack, unsigned int line_num);
+void (*get_op_functn(char *op_code))(stack_t **stack, unsigned int line_num);
+void (*get_op_queue(char *op_code))(stack_t **stack, unsigned int line_num);
 ssize_t getline(char **lineptr, size_t *n, FILE *stream);
-bool is_readable(char *line);
 void parse_file(FILE *script);
 void exit_unreadable(char *script);
 void exit_malloc(void);
-void exit_invalid(char **op_code);
-int count_tokens(char *input, char *delimiter);
-void free_vectors(char **vectors);
-char **tokenize(char *copy, char *line_input);
-void print_error(char **op_vector);
+void exit_invalid(char *op_code);
+void print_error(void);
 void free_dlistint(stack_t *head);
 
 #endif
