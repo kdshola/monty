@@ -51,8 +51,8 @@ void pop(stack_t **stack, unsigned int line_number)
 	{
 		*stack = queue_front = temp->next;
 		free(temp);
+		data_count--;
 	}
-	data_count--;
 }
 
 /**
