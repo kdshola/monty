@@ -68,10 +68,7 @@ void parse_file(FILE *script)
 			continue;
 		}
 		op_arg = strtok(NULL, " \t\n");
-		if (stack_mode)
-			f = get_op_functn(op_code);
-		else
-			f = get_op_queue(op_code);
+		f = get_op_functn(op_code);
 		if (f)
 			f(&top, line_number);
 		line_number++;

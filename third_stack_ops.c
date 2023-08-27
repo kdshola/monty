@@ -73,8 +73,10 @@ void pstr(stack_t **stack, unsigned int line_number __attribute__((unused)))
 	}
 	else
 	{
-		while (temp->n > 0 && temp->n < 128)
+		while (temp)
 		{
+			if (temp->n <= 0 || temp->n > 127)
+				break;
 			putchar(temp->n);
 			temp = temp->next;
 		}
@@ -94,6 +96,7 @@ void pchar(stack_t **stack, unsigned int line_number)
 	{
 		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
 		free(line);
+		free_dlistint(top);
 		fclose(file_ptr);
 		exit(EXIT_FAILURE);
 	}

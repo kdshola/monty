@@ -48,7 +48,6 @@ extern int data_count;
 extern bool stack_mode;
 extern FILE *file_ptr;
 
-void enqueue(stack_t **stack, unsigned int line_number);
 void queue(stack_t **stack, unsigned int line_number);
 void stack_m(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
@@ -68,7 +67,6 @@ void pall(stack_t **stack, unsigned int line_number);
 void push(stack_t **stack, unsigned int line_number);
 void check_args(char **op_vector);
 void (*get_op_functn(char *op_code))(stack_t **stack, unsigned int line_num);
-void (*get_op_queue(char *op_code))(stack_t **stack, unsigned int line_num);
 ssize_t getline(char **lineptr, size_t *n, FILE *stream);
 void parse_file(FILE *script);
 void exit_unreadable(char *script);

@@ -101,21 +101,24 @@ void push(stack_t **stack, unsigned int line_number __attribute__((unused)))
 	top_data = num;
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
-	{
 		exit_malloc();
-	}
+	new->next = NULL;
 	new->prev = NULL;
 	new->n = top_data;
 	if (*stack == NULL)
 	{
-		new->next = NULL;
 		*stack = queue_rear = queue_front = new;
 	}
-	else
+	else if (stack_mode)
 	{
 		new->next = *stack;
 		(*stack)->prev = new;
 		*stack = queue_front = new;
+	}
+	else
+	{
+		queue_rear->next = new;
+		queue_rear = new;
 	}
 	data_count++;
 	top_data = 0;
